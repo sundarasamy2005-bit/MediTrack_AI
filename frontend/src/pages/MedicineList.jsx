@@ -8,7 +8,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import api from '../services/api';
 import { formatCurrency, getExpiryBadge, getStockBadge } from '../utils/helpers';
 import Loading from '../components/Loading';
-import { getLocalMedicines, saveLocalMedicines } from '../services/mockMedicines';
 
 const MedicineList = () => {
   const navigate = useNavigate();
@@ -35,15 +34,11 @@ const MedicineList = () => {
     try {
       setRefreshing(true);
       const res = await api.get('/medicines');
-      if (res.data?.medicines && res.data.medicines.length > 0) {
+      if (res.data?.medicines) {
         setMedicines(res.data.medicines);
-        saveLocalMedicines(res.data.medicines);
-      } else {
-        setMedicines(getLocalMedicines());
       }
     } catch (err) {
       console.warn('Using live inventory fallback');
-      setMedicines(getLocalMedicines());
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -59,14 +54,12 @@ const MedicineList = () => {
     if (window.confirm(`Are you sure you want to permanently delete "${name}"?`)) {
       try {
         await api.delete(`/medicines/${id}`);
-      } catch (e) {}
-      setMedicines(prev => {
-        const updated = prev.filter(m => m._id !== id);
-        saveLocalMedicines(updated);
-        return updated;
-      });
-      setFeedback(`"${name}" removed from inventory.`);
-      setTimeout(() => setFeedback(''), 3500);
+        setMedicines(prev => prev.filter(m => m._id !== id));
+        setFeedback(`"${name}" removed from inventory.`);
+        setTimeout(() => setFeedback(''), 3500);
+      } catch (e) {
+        setMedicines(prev => prev.filter(m => m._id !== id));
+      }
     }
   };
 
