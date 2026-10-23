@@ -13,6 +13,7 @@ import {
   LogOut
 } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
+import pillLogo from '../assets/images/pill_logo.png';
 
 const Sidebar = ({ collapsed }) => {
   const { logout, user } = useAuth();
@@ -22,7 +23,7 @@ const Sidebar = ({ collapsed }) => {
       <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }} title="MediTrack AI Dashboard">
         <div className="sidebar-header" style={{ cursor: 'pointer' }}>
           <div className="sidebar-logo" style={{ overflow: 'hidden' }}>
-            <img src="/src/assets/images/pill_logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src={pillLogo} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           {!collapsed && <span className="sidebar-title">MediTrack AI</span>}
         </div>

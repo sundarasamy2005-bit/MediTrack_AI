@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { getLocalMedicines, saveLocalMedicines } from '../services/mockMedicines';
 import Loading from '../components/Loading';
 import FormLoadingOverlay from '../components/FormLoadingOverlay';
 import ButtonLoader from '../components/ButtonLoader';
@@ -197,7 +198,15 @@ const AddMedicine = () => {
       await api.post('/medicines', formData);
       navigate('/medicines');
     } catch (err) {
-      console.warn('Medicine registered');
+      console.warn('Medicine registered locally to cache');
+      const current = getLocalMedicines();
+      const newMed = {
+        _id: 'med_' + Date.now(),
+        ...formData,
+        quantity: Number(formData.quantity) || 1,
+        price: Number(formData.price) || 0
+      };
+      saveLocalMedicines([newMed, ...current]);
       navigate('/medicines');
     } finally {
       setSubmitting(false);

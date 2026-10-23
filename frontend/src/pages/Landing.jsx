@@ -28,6 +28,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import api from '../services/api';
 import Loading from '../components/Loading';
+import pillLogo from '../assets/images/pill_logo.png';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -152,7 +153,7 @@ const Landing = () => {
             boxShadow: '0 0 25px rgba(16, 185, 129, 0.5)',
             overflow: 'hidden'
           }}>
-            <img src="/src/assets/images/pill_logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src={pillLogo} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginTop: '0.35rem' }}>
             <span style={{ fontSize: '1.5rem', fontWeight: '800', letterSpacing: '-0.02em', color: '#fff' }}>MediTrack</span>
@@ -308,7 +309,7 @@ const Landing = () => {
             boxShadow: '0 0 20px rgba(16, 185, 129, 0.5)',
             overflow: 'hidden'
           }}>
-            <img src="/src/assets/images/pill_logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src={pillLogo} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
