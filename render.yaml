@@ -1,0 +1,34 @@
+services:
+  # 1. Frontend (React + Vite Static Site with SPA Rewrites)
+  - type: static
+    name: meditrack-ai-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # 2. Backend (Node.js + Express API Web Service)
+  - type: web
+    name: meditrack-ai-backend
+    env: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+
+  # 3. AI Service (Python Flask + EasyOCR Web Service)
+  - type: web
+    name: meditrack-ai-service
+    env: python
+    rootDir: ai-service
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
