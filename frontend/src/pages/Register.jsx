@@ -22,7 +22,6 @@ import {
 import useAuth from '../hooks/useAuth';
 import FormLoadingOverlay from '../components/FormLoadingOverlay';
 import ButtonLoader from '../components/ButtonLoader';
-import pillLogo from '../assets/images/pill_logo.png';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -171,7 +170,7 @@ const Register = () => {
                 boxShadow: '0 0 20px rgba(139, 92, 246, 0.5)',
                 overflow: 'hidden'
               }}>
-                <img src={pillLogo} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src="/src/assets/images/pill_logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>

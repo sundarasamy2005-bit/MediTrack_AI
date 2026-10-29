@@ -16,7 +16,7 @@ const startServer = async () => {
   // Initialize Daily Automated Expiry & Low Stock Alert Scheduler
   initAlertScheduler();
 
-  app.listen(PORT, '0.0.0.0', () => {
+  app.listen(PORT, () => {
     console.log(`==================================================`);
     console.log(` 🚀 MedScan AI Backend API running on port ${PORT}`);
     console.log(` 🔗 Health check: http://localhost:${PORT}/api/health`);

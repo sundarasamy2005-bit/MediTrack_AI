@@ -24,24 +24,11 @@ export const loginWithGoogle = async () => {
     }
 
     // Sync profile with MongoDB
-    try {
-      const syncRes = await api.post('/auth/sync');
-      if (syncRes.data?.user?.name) {
-        localStorage.setItem('medscan_user_name', syncRes.data.user.name);
-      }
-      return syncRes.data;
-    } catch (syncErr) {
-      console.warn('[Google Auth Sync] Backend notice:', syncErr.message, '- proceeding with client profile');
-      const cachedName = localStorage.getItem('medscan_user_name') || auth.currentUser?.displayName || 'Pharmacy Staff';
-      return {
-        user: {
-          firebaseUid: auth.currentUser?.uid || 'google_user',
-          email: auth.currentUser?.email || '',
-          name: cachedName,
-          role: 'pharmacist'
-        }
-      };
+    const syncRes = await api.post('/auth/sync');
+    if (syncRes.data?.user?.name) {
+      localStorage.setItem('medscan_user_name', syncRes.data.user.name);
     }
+    return syncRes.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || err.message);
   }
@@ -108,26 +95,14 @@ export const registerUser = async (name, email, password, role = 'pharmacist') =
     localStorage.setItem('medscan_dev_pwd_' + cleanEmail, password);
 
     // Register user metadata in MongoDB
-    try {
-      const backendRes = await api.post('/auth/register', {
-        firebaseUid,
-        name,
-        email: cleanEmail,
-        role
-      });
-      return backendRes.data;
-    } catch (backendErr) {
-      console.warn('[Backend Auth Register] Backend notice:', backendErr.message, '- proceeding with client session');
-      return {
-        success: true,
-        user: {
-          firebaseUid,
-          name,
-          email: cleanEmail,
-          role
-        }
-      };
-    }
+    const backendRes = await api.post('/auth/register', {
+      firebaseUid,
+      name,
+      email: cleanEmail,
+      role
+    });
+
+    return backendRes.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || err.message);
   }
@@ -193,27 +168,15 @@ export const loginUser = async (email, password) => {
     }
 
     // Sync profile with MongoDB
-    try {
-      const syncRes = await api.post('/auth/sync', { email: cleanEmail });
-      const syncedUser = syncRes.data?.user;
-      if (syncedUser?.name) {
-        localStorage.setItem('medscan_user_name', syncedUser.name);
-      } else if (fbUser?.displayName) {
-        localStorage.setItem('medscan_user_name', fbUser.displayName);
-      }
-      return syncRes.data;
-    } catch (syncErr) {
-      console.warn('[Backend Auth Sync] Backend notice:', syncErr.message, '- proceeding with client session');
-      const savedName = localStorage.getItem('medscan_user_name') || localStorage.getItem('medscan_registered_name') || fbUser?.displayName || (cleanEmail.includes('demo') || cleanEmail.includes('pharmacist') ? 'Chief Pharmacist' : 'Pharmacy Staff');
-      return {
-        user: {
-          firebaseUid: fbUser?.uid || 'client_session_user',
-          email: cleanEmail,
-          name: savedName,
-          role: 'pharmacist'
-        }
-      };
+    const syncRes = await api.post('/auth/sync', { email: cleanEmail });
+    const syncedUser = syncRes.data?.user;
+    if (syncedUser?.name) {
+      localStorage.setItem('medscan_user_name', syncedUser.name);
+    } else if (fbUser?.displayName) {
+      localStorage.setItem('medscan_user_name', fbUser.displayName);
     }
+
+    return syncRes.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || err.message);
   }

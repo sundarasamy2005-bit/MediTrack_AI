@@ -22,7 +22,6 @@ import useAuth from '../hooks/useAuth';
 import { resetPassword } from '../services/auth';
 import FormLoadingOverlay from '../components/FormLoadingOverlay';
 import ButtonLoader from '../components/ButtonLoader';
-import pillLogo from '../assets/images/pill_logo.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -174,7 +173,7 @@ const Login = () => {
                 boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)',
                 overflow: 'hidden'
               }}>
-                <img src={pillLogo} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src="/src/assets/images/pill_logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
